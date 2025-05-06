@@ -28,8 +28,8 @@ router.get('inicio', [IniciosController, 'index'])
 
 router.post('/login', [AuthController, 'login'])
 
-router.post('/inventario', [InventoryController, 'create'])
-router.get('/inventario', [InventoryController, 'index'])
-router.get('/inventario/:id', [InventoryController, 'show'])
-router.put('/inventario/:id', [InventoryController, 'update'])
-router.delete('/inventario/:id', [InventoryController, 'destroy'])
+router.post('/inventario', [InventoryController, 'create']).use(middleware.auth({ guards: 'API'}))
+router.get('/inventario', [InventoryController, 'index']).use(middleware.auth({ guards: 'API'}))
+router.get('/inventario/:id', [InventoryController, 'show']).use(middleware.auth({ guards: 'API'}))
+router.put('/inventario/:id', [InventoryController, 'update']).use(middleware.auth({ guards: 'API'}))
+router.delete('/inventario/:id', [InventoryController, 'destroy']).use(middleware.auth({ guards: 'API'}))
