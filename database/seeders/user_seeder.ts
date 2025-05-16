@@ -6,7 +6,7 @@ export default class extends BaseSeeder {
   async run() {
     const user = await User.create({
       fullName: 'test_user',
-      correo: 'romain@adonisjs.com',
+      correo: 'adonis@gmail.com',
       password: '1234',
     })
   }
