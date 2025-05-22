@@ -29,13 +29,13 @@ router.get('inicio', [IniciosController, 'index'])
 
 router.post('/login', [AuthController, 'login'])
 
-router.get('/inventario',[InventoriesController, 'index']).use(middleware.auth({
+router.get('/inventario',[InventoriesController, 'list']).use(middleware.auth({
   guards: ['api']
 }))
-router.get('/inventario/:id',[InventoriesController, 'show']).use(middleware.auth({
+router.get('/inventario/:id',[InventoriesController, 'get']).use(middleware.auth({
   guards: ['api']
 }))
-router.post('/inventario',[InventoriesController, 'store']).use(middleware.auth({
+router.post('/inventario',[InventoriesController, 'create']).use(middleware.auth({
   guards: ['api']
 }))
 router.patch('/inventario/:id',[InventoriesController, 'update']).use(middleware.auth({
