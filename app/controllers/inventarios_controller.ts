@@ -22,7 +22,14 @@ export default class InventoriesController {
   }
 
   async create({ request, response }: HttpContext) {
-    const data = request.only(['codigo', 'nombre_producto', 'categoria','stock','min_stock','unidad_medida'])
+    const data = request.only([
+      'codigo',
+      'nombre_producto',
+      'categoria',
+      'stock',
+      'min_stock',
+      'unidad_medida',
+    ])
     const item = await Inventario.create(data)
     return response.created(item)
   }
@@ -34,7 +41,14 @@ export default class InventoriesController {
 
   async update({ params, request, response }: HttpContext) {
     const item = await Inventario.findOrFail(params.id)
-    const data = request.only(['codigo', 'nombre_producto', 'categoria','stock','min_stock','unidad_medida'])
+    const data = request.only([
+      'codigo',
+      'nombre_producto',
+      'categoria',
+      'stock',
+      'min_stock',
+      'unidad_medida',
+    ])
     item.merge(data)
     await item.save()
     return response.ok(item)

@@ -15,7 +15,7 @@ export default class extends BaseSeeder {
       {
         codigo: 2,
         nombre_producto: 'cerdo',
-        categoria: 'Carnes',
+        categoria: 'carnes',
         stock: 100,
         min_stock: 10,
         unidad_medida: 'Unidad',
@@ -35,14 +35,15 @@ export default class extends BaseSeeder {
         stock: 100,
         min_stock: 10,
         unidad_medida: 'Unidad',
-      },{
+      },
+      {
         codigo: 5,
         nombre_producto: 'queso',
         categoria: 'lacteos',
         stock: 100,
         min_stock: 10,
         unidad_medida: 'Unidad',
-      }
-      ])
-      }
+      },
+    ])
   }
+}
