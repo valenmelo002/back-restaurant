@@ -7,12 +7,13 @@
 |
 */
 
-import IniciosController from '#controllers/inicios_controller'
+const IniciosController = () => import('#controllers/inicios_controller')
 import router from '@adonisjs/core/services/router'
-import DashboardController from '#controllers/dashboard_controller'
+const DashboardController = () => import('#controllers/dashboard_controller')
 import { middleware } from '#start/kernel'
-import AuthController from '#controllers/auth_controller'
-import InventoriesController from '#controllers/inventarios_controller'
+const AuthController = () => import('#controllers/auth_controller')
+const InventoriesController = () => import('#controllers/inventarios_controller')
+const ProductosController = () => import('#controllers/productos_controller')
 
 router.get('/', async () => {
   return {
@@ -20,27 +21,68 @@ router.get('/', async () => {
   }
 })
 
-router.get('/dashboard', [DashboardController, 'index'])
-  .use(middleware.auth({
-    guards: ['api']
-  }))
+router.get('/dashboard', [DashboardController, 'index']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
 
 router.get('inicio', [IniciosController, 'index'])
 
 router.post('/login', [AuthController, 'login'])
 
-router.get('/inventario',[InventoriesController, 'list']).use(middleware.auth({
-  guards: ['api']
-}))
-router.get('/inventario/:id',[InventoriesController, 'get']).use(middleware.auth({
-  guards: ['api']
-}))
-router.post('/inventario',[InventoriesController, 'create']).use(middleware.auth({
-  guards: ['api']
-}))
-router.patch('/inventario/:id',[InventoriesController, 'update']).use(middleware.auth({
-  guards: ['api']
-}))
-router.delete('/inventario/:id',[InventoriesController, 'destroy']).use(middleware.auth({
-  guards: ['api']
-}))
+router.get('/inventario', [InventoriesController, 'list']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.get('/inventario/:id', [InventoriesController, 'get']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.post('/inventario', [InventoriesController, 'create']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.patch('/inventario/:id', [InventoriesController, 'update']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.delete('/inventario/:id', [InventoriesController, 'destroy']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+router.get('/productos', [ProductosController, 'list']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+router.post('/productos', [ProductosController, 'create']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+router.get('/productos/:id', [ProductosController, 'get']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+router.put('/productos/:id', [ProductosController, 'update']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+router.delete('/productos/:id', [ProductosController, 'destroy']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
