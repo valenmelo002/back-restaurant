@@ -12,7 +12,7 @@ export default class HistorialInventario extends BaseModel {
   declare producto_id: number
 
   @column()
-  declare tipoMovimiento: 'Entrada' | 'Salida' | 'Ajuste'
+  declare tipo_movimiento: 'Entrada' | 'Salida' | 'Ajuste'
 
   @column()
   declare cantidad: number

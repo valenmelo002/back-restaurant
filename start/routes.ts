@@ -18,6 +18,8 @@ const InventoriesController = () => import('#controllers/inventarios_controller'
 const ProductosController = () => import('#controllers/productos_controller')
 const ProveedoresController = () => import('#controllers/proveedores_controller')
 const RecepcionesController = () => import('#controllers/recepcions_controller')
+const HistorialInventarioController = () => import('#controllers/historial_inventarios_controller')
+
 router.get('/', async () => {
   return {
     hello: 'world',
@@ -137,6 +139,8 @@ router.delete('/proveedores/:id', [ProveedoresController, 'destroy']).use(
   })
 )
 
+// Ruta de recepcion
+
 router.get('/recepcion', [RecepcionesController, 'list']).use(
   middleware.auth({
     guards: ['api'],
@@ -163,6 +167,29 @@ router.patch('/recepcion/:id', [RecepcionesController, 'patch']).use(
   })
 )
 router.delete('/recepcion/:id', [RecepcionesController, 'destroy']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+// ruta de Historial de inventario
+
+router.get('/historial-inventario', [HistorialInventarioController, 'list']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.post('/historial-inventario', [HistorialInventarioController, 'create']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.get('/historial-inventario/:id', [HistorialInventarioController, 'get']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.delete('/historial-inventario/:id', [HistorialInventarioController, 'destroy']).use(
   middleware.auth({
     guards: ['api'],
   })
