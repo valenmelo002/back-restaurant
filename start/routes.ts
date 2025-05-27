@@ -17,6 +17,7 @@ const AuthController = () => import('#controllers/auth_controller')
 const InventoriesController = () => import('#controllers/inventarios_controller')
 const ProductosController = () => import('#controllers/productos_controller')
 import ProveedoresController from '#controllers/proveedores_controller'
+import registersController from '#controllers/registers_controller'
 router.get('/', async () => {
   return {
     hello: 'world',
@@ -32,6 +33,9 @@ router.get('/inicio', [DashboardController, 'index']).use(
 router.get('dashboard', [IniciosController, 'index'])
 
 router.post('/login', [AuthController, 'login'])
+
+router.post('/api/v1/register', ([registersController, "register"]))
+
 
 //rutas de inventario
 

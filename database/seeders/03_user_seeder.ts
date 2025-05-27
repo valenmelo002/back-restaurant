@@ -55,6 +55,16 @@ export default class extends BaseSeeder {
         numero_telefono: '3009999999',
         created_at: DateTime.now(),
       },
+           {
+        nombre: 'jonatan',
+        apellido: 'sanchez',
+        tipo_documento_id: 1324,
+        numero_documento: '11111111',
+        correo: 'jonata@example.com',
+        password: '12345',
+        numero_telefono: '3009999999',
+        created_at: DateTime.now(),
+      },
     ])
   }
 }
