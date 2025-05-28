@@ -17,6 +17,8 @@ const AuthController = () => import('#controllers/auth_controller')
 const InventoriesController = () => import('#controllers/inventarios_controller')
 const ProductosController = () => import('#controllers/productos_controller')
 import ProveedoresController from '#controllers/proveedores_controller'
+import FacturasCompraController from '#controllers/factura_compras_controller'
+
 router.get('/', async () => {
   return {
     hello: 'world',
@@ -135,3 +137,14 @@ router.delete('/proveedores/:id', [ProveedoresController, 'destroy']).use(
     guards: ['api'],
   })
 )
+
+
+router.get('/api/v1/facturasCompra', ([FacturasCompraController, "index"]))
+
+router.post('/api/v1/facturasCompra', ([FacturasCompraController, "store"]))
+
+router.get('/api/v1/facturasCompra/:id', ([FacturasCompraController, "show"]))
+
+router.put('/api/v1/facturasCompra/:id', ([FacturasCompraController, "update"]))
+
+router.delete('/api/v1/facturasCompra/:id', ([FacturasCompraController, "destroy"]))
