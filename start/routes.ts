@@ -138,13 +138,32 @@ router.delete('/proveedores/:id', [ProveedoresController, 'destroy']).use(
   })
 )
 
+router.get('/api/v1/facturasCompra', [FacturasCompraController, 'index']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
 
-router.get('/api/v1/facturasCompra', ([FacturasCompraController, "index"]))
+router.post('/api/v1/facturasCompra', [FacturasCompraController, 'store']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
 
-router.post('/api/v1/facturasCompra', ([FacturasCompraController, "store"]))
+router.get('/api/v1/facturasCompra/:id', [FacturasCompraController, 'show']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
 
-router.get('/api/v1/facturasCompra/:id', ([FacturasCompraController, "show"]))
+router.put('/api/v1/facturasCompra/:id', [FacturasCompraController, 'update']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
 
-router.put('/api/v1/facturasCompra/:id', ([FacturasCompraController, "update"]))
-
-router.delete('/api/v1/facturasCompra/:id', ([FacturasCompraController, "destroy"]))
+router.delete('/api/v1/facturasCompra/:id', [FacturasCompraController, 'destroy']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
