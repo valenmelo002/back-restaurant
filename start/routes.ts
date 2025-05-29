@@ -11,14 +11,15 @@ const IniciosController = () => import('#controllers/inicios_controller')
 import router from '@adonisjs/core/services/router'
 const DashboardController = () => import('#controllers/dashboard_controller')
 import { middleware } from '#start/kernel'
-import CategoriasController from '#controllers/categorias_controller'
-import UnidadMedidasController from '#controllers/unidad_medidas_controller'
+const CategoriasController = () => import('#controllers/categorias_controller')
+const UnidadMedidasController = () => import('#controllers/unidad_medidas_controller')
 const AuthController = () => import('#controllers/auth_controller')
 const InventoriesController = () => import('#controllers/inventarios_controller')
 const ProductosController = () => import('#controllers/productos_controller')
-import ProveedoresController from '#controllers/proveedores_controller'
+const ProveedoresController = () => import('#controllers/proveedores_controller')
+const RecepcionesController = () => import('#controllers/recepcions_controller')
+const HistorialInventarioController = () => import('#controllers/historial_inventarios_controller')
 import FacturasCompraController from '#controllers/factura_compras_controller'
-
 router.get('/', async () => {
   return {
     hello: 'world',
@@ -133,6 +134,62 @@ router.patch('/proveedores/:id', [ProveedoresController, 'update']).use(
   })
 )
 router.delete('/proveedores/:id', [ProveedoresController, 'destroy']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+// Ruta de recepcion
+
+router.get('/recepcion', [RecepcionesController, 'list']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.post('/recepcion', [RecepcionesController, 'create']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.get('/recepcion/:id', [RecepcionesController, 'get']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.put('/recepcion/:id', [RecepcionesController, 'update']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.patch('/recepcion/:id', [RecepcionesController, 'patch']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.delete('/recepcion/:id', [RecepcionesController, 'destroy']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+// ruta de Historial de inventario
+
+router.get('/historial-inventario', [HistorialInventarioController, 'list']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.post('/historial-inventario', [HistorialInventarioController, 'create']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.get('/historial-inventario/:id', [HistorialInventarioController, 'get']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.delete('/historial-inventario/:id', [HistorialInventarioController, 'destroy']).use(
   middleware.auth({
     guards: ['api'],
   })

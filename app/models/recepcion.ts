@@ -1,10 +1,12 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
 import Producto from './producto.js'
+import UnidadMedida from './unidad_medida.js'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
-export default class HistorialInventario extends BaseModel {
-  public static table = 'historial_inventarios'
+export default class Recepcion extends BaseModel {
+  public static table = 'recepciones'
+
   @column({ isPrimary: true })
   declare id: number
 
@@ -12,25 +14,26 @@ export default class HistorialInventario extends BaseModel {
   declare producto_id: number
 
   @column()
-  declare tipo_movimiento: 'Entrada' | 'Salida' | 'Ajuste'
+  declare unidad_medida_id: number
 
   @column()
   declare cantidad: number
 
-  @column.dateTime()
-  declare fecha: DateTime
-
   @column()
-  declare descripcion: string | null
+  declare observacion: string | null
 
   @belongsTo(() => Producto, {
     foreignKey: 'producto_id',
   })
   declare producto: BelongsTo<typeof Producto>
 
+  @belongsTo(() => UnidadMedida, {
+    foreignKey: 'unidad_medida_id',
+  })
+  declare unidadMedida: BelongsTo<typeof UnidadMedida>
   @column.dateTime({ autoCreate: true })
-  declare created_at: DateTime
+  declare createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updated_at: DateTime
+  declare updatedAt: DateTime
 }
