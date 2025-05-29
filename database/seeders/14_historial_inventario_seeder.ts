@@ -7,7 +7,7 @@ export default class extends BaseSeeder {
     await HistorialInventario.createMany([
       {
         producto_id: 1,
-        tipoMovimiento: 'Entrada',
+        tipo_movimiento: 'Entrada',
         cantidad: 50,
         fecha: DateTime.fromISO('2025-01-01'),
         descripcion: 'Ingreso inicial de producto',
@@ -15,7 +15,7 @@ export default class extends BaseSeeder {
       },
       {
         producto_id: 2,
-        tipoMovimiento: 'Salida',
+        tipo_movimiento: 'Salida',
         cantidad: 10,
         fecha: DateTime.fromISO('2025-01-01'),
         descripcion: 'Venta realizada',
@@ -23,7 +23,7 @@ export default class extends BaseSeeder {
       },
       {
         producto_id: 1,
-        tipoMovimiento: 'Ajuste',
+        tipo_movimiento: 'Ajuste',
         cantidad: 5,
         fecha: DateTime.fromISO('2025-01-01'),
         descripcion: 'Ajuste por inventario',
@@ -31,7 +31,7 @@ export default class extends BaseSeeder {
       },
       {
         producto_id: 3,
-        tipoMovimiento: 'Entrada',
+        tipo_movimiento: 'Entrada',
         cantidad: 100,
         fecha: DateTime.fromISO('2025-01-01'),
         descripcion: 'Compra al proveedor',
@@ -39,7 +39,7 @@ export default class extends BaseSeeder {
       },
       {
         producto_id: 2,
-        tipoMovimiento: 'Salida',
+        tipo_movimiento: 'Salida',
         cantidad: 20,
         fecha: DateTime.fromISO('2025-01-01'),
         descripcion: 'Devolución a almacén',
