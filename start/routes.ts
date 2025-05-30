@@ -143,37 +143,6 @@ router.delete('/proveedores/:id', [ProveedoresController, 'destroy']).use(
 
 // Ruta de recepcion
 
-router.get('/recepcion', [RecepcionesController, 'list']).use(
-  middleware.auth({
-    guards: ['api'],
-  })
-)
-router.post('/recepcion', [RecepcionesController, 'create']).use(
-  middleware.auth({
-    guards: ['api'],
-  })
-)
-router.get('/recepcion/:id', [RecepcionesController, 'get']).use(
-  middleware.auth({
-    guards: ['api'],
-  })
-)
-router.put('/recepcion/:id', [RecepcionesController, 'update']).use(
-  middleware.auth({
-    guards: ['api'],
-  })
-)
-router.patch('/recepcion/:id', [RecepcionesController, 'patch']).use(
-  middleware.auth({
-    guards: ['api'],
-  })
-)
-router.delete('/recepcion/:id', [RecepcionesController, 'destroy']).use(
-  middleware.auth({
-    guards: ['api'],
-  })
-)
-
 // ruta de Historial de inventario
 router.get('/recepcion', [RecepcionesController, 'list']).use(
   middleware.auth({
@@ -253,27 +222,6 @@ router.get('/historial-inventario/:id', [HistorialInventarioController, 'get']).
   })
 )
 
-router.delete('/historial-inventario/:id', [HistorialInventarioController, 'destroy']).use(
-  middleware.auth({
-    guards: ['api'],
-  })
-)
-
-router.get('/historial-inventario', [HistorialInventarioController, 'list']).use(
-  middleware.auth({
-    guards: ['api'],
-  })
-)
-router.post('/historial-inventario', [HistorialInventarioController, 'create']).use(
-  middleware.auth({
-    guards: ['api'],
-  })
-)
-router.get('/historial-inventario/:id', [HistorialInventarioController, 'get']).use(
-  middleware.auth({
-    guards: ['api'],
-  })
-)
 router.delete('/historial-inventario/:id', [HistorialInventarioController, 'destroy']).use(
   middleware.auth({
     guards: ['api'],
