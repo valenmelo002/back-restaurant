@@ -19,6 +19,8 @@ const ProductosController = () => import('#controllers/productos_controller')
 const ProveedoresController = () => import('#controllers/proveedores_controller')
 const RecepcionesController = () => import('#controllers/recepcions_controller')
 const HistorialInventarioController = () => import('#controllers/historial_inventarios_controller')
+import FacturasCompraController from '#controllers/factura_compras_controller'
+
 
 router.get('/', async () => {
   return {
@@ -141,6 +143,7 @@ router.delete('/proveedores/:id', [ProveedoresController, 'destroy']).use(
 
 // Ruta de recepcion
 
+// ruta de Historial de inventario
 router.get('/recepcion', [RecepcionesController, 'list']).use(
   middleware.auth({
     guards: ['api'],
@@ -151,6 +154,7 @@ router.post('/recepcion', [RecepcionesController, 'create']).use(
     guards: ['api'],
   })
 )
+
 router.get('/recepcion/:id', [RecepcionesController, 'get']).use(
   middleware.auth({
     guards: ['api'],
@@ -172,8 +176,36 @@ router.delete('/recepcion/:id', [RecepcionesController, 'destroy']).use(
   })
 )
 
-// ruta de Historial de inventario
+router.get('/api/v1/facturasCompra', [FacturasCompraController, 'index']).use(
+    middleware.auth({
+    guards: ['api'],
+  })
+)
+router.post('/api/v1/facturasCompra', [FacturasCompraController, 'store']).use(
+    middleware.auth({
+    guards: ['api'],
+  })
+)
 
+
+
+router.get('/api/v1/facturasCompra/:id', [FacturasCompraController, 'show']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+
+router.put('/api/v1/facturasCompra/:id', [FacturasCompraController, 'update']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.delete('/api/v1/facturasCompra/:id', [FacturasCompraController, 'destroy']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
 router.get('/historial-inventario', [HistorialInventarioController, 'list']).use(
   middleware.auth({
     guards: ['api'],
@@ -189,6 +221,7 @@ router.get('/historial-inventario/:id', [HistorialInventarioController, 'get']).
     guards: ['api'],
   })
 )
+
 router.delete('/historial-inventario/:id', [HistorialInventarioController, 'destroy']).use(
   middleware.auth({
     guards: ['api'],
