@@ -197,11 +197,6 @@ router.delete('/historial-inventario/:id', [HistorialInventarioController, 'dest
   })
 )
 
-router.get('/api/v1/facturasCompra', [FacturasCompraController, 'index']).use(
-    middleware.auth({
-    guards: ['api'],
-  })
-)
 
 router.get('/recepcion', [RecepcionesController, 'list']).use(
   middleware.auth({
@@ -235,6 +230,11 @@ router.delete('/recepcion/:id', [RecepcionesController, 'destroy']).use(
   })
 )
 
+router.get('/api/v1/facturasCompra', [FacturasCompraController, 'index']).use(
+    middleware.auth({
+    guards: ['api'],
+  })
+)
 router.post('/api/v1/facturasCompra', [FacturasCompraController, 'store']).use(
     middleware.auth({
     guards: ['api'],
@@ -242,26 +242,31 @@ router.post('/api/v1/facturasCompra', [FacturasCompraController, 'store']).use(
 )
 
 
+
+router.get('/api/v1/facturasCompra/:id', [FacturasCompraController, 'show']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+
+router.put('/api/v1/facturasCompra/:id', [FacturasCompraController, 'update']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.delete('/api/v1/facturasCompra/:id', [FacturasCompraController, 'destroy']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
 router.get('/historial-inventario', [HistorialInventarioController, 'list']).use(
   middleware.auth({
     guards: ['api'],
   })
 )
-
-router.get('/api/v1/facturasCompra/:id', [FacturasCompraController, 'show']).use(
-    middleware.auth({
-    guards: ['api'],
-  })
-)
-
 router.post('/historial-inventario', [HistorialInventarioController, 'create']).use(
   middleware.auth({
-    guards: ['api'],
-  })
-)
-
-router.put('/api/v1/facturasCompra/:id', [FacturasCompraController, 'update']).use(
-    middleware.auth({
     guards: ['api'],
   })
 )
@@ -271,11 +276,6 @@ router.get('/historial-inventario/:id', [HistorialInventarioController, 'get']).
   })
 )
 
-router.delete('/api/v1/facturasCompra/:id', [FacturasCompraController, 'destroy']).use(
-  middleware.auth({
-    guards: ['api'],
-  })
-)
 router.delete('/historial-inventario/:id', [HistorialInventarioController, 'destroy']).use(
   middleware.auth({
     guards: ['api'],
