@@ -12,7 +12,7 @@ export default class UserRole extends BaseModel {
   declare user_id: number
 
   @column()
-  declare roles_id: number
+  declare role_id: number
 
   @belongsTo(() => User, {
     foreignKey: 'user_id',
