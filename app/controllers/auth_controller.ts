@@ -8,4 +8,25 @@ export default class AuthController {
     const token = await User.accessTokens.create(user)
     return token
   }
+
+  async cambiarPassword({ request, response }: HttpContext) {
+    const { correo, actual, nueva } = request.only(['correo', 'actual', 'nueva'])
+
+    const user = await User.findBy('correo', correo)
+
+    if (!user) {
+      return response.status(404).json({ message: 'Usuario no encontrado' })
+    }
+
+    const valid = await user.verifyPassword(actual)
+
+    if (!valid) {
+      return response.status(400).json({ message: 'Contraseña actual incorrecta' })
+    }
+
+    user.password = nueva
+    await user.save()
+
+    return { message: 'Contraseña actualizada correctamente' }
+  }
 }
