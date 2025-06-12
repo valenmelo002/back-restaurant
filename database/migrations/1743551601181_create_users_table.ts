@@ -7,7 +7,7 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.bigIncrements('id')
       table.string('nombre').notNullable()
-      table.string('apellido').notNullable()
+      table.string('apellido').nullable() // Permite valores nulos
       table
         .bigInteger('tipo_documento_id')
         .notNullable()

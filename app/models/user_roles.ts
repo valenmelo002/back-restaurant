@@ -20,7 +20,7 @@ export default class UserRole extends BaseModel {
   declare user: BelongsTo<typeof User>
 
   @belongsTo(() => Role, {
-    foreignKey: 'roles_id',
+    foreignKey: 'role_id',
   })
   declare roles: BelongsTo<typeof Role>
 

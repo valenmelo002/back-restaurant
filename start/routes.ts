@@ -11,6 +11,7 @@ const IniciosController = () => import('#controllers/inicios_controller')
 import router from '@adonisjs/core/services/router'
 const DashboardController = () => import('#controllers/dashboard_controller')
 import { middleware } from '#start/kernel'
+import RolesController from '#controllers/roles_controller'
 const CategoriasController = () => import('#controllers/categorias_controller')
 const UnidadMedidasController = () => import('#controllers/unidad_medidas_controller')
 const AuthController = () => import('#controllers/auth_controller')
@@ -19,6 +20,7 @@ const ProductosController = () => import('#controllers/productos_controller')
 const ProveedoresController = () => import('#controllers/proveedores_controller')
 const RecepcionesController = () => import('#controllers/recepcions_controller')
 const HistorialInventarioController = () => import('#controllers/historial_inventarios_controller')
+const UsuariosController = () => import('#controllers/usuarios_controller')
 
 router.get('/', async () => {
   return {
@@ -190,6 +192,46 @@ router.get('/historial-inventario/:id', [HistorialInventarioController, 'get']).
   })
 )
 router.delete('/historial-inventario/:id', [HistorialInventarioController, 'destroy']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+//Rutas de usuarios_roles
+
+router.get('/user_roles', [UsuariosController, 'list']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+router.post('/user_roles', [UsuariosController, 'create']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+router.get('/user_roles/:id', [UsuariosController, 'get']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+router.put('/user_roles/:id', [UsuariosController, 'update']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+router.delete('/user_roles/:id', [UsuariosController, 'destroy']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+// Rutas de roles
+
+router.get('/roles', [RolesController, 'list']).use(
   middleware.auth({
     guards: ['api'],
   })
