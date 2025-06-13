@@ -21,6 +21,7 @@ const ProveedoresController = () => import('#controllers/proveedores_controller'
 const RecepcionesController = () => import('#controllers/recepcions_controller')
 const HistorialInventarioController = () => import('#controllers/historial_inventarios_controller')
 const UsuariosController = () => import('#controllers/usuarios_controller')
+import TipoDocumentoController from '#controllers/tipo_documento_controller'
 
 router.get('/', async () => {
   return {
@@ -235,4 +236,9 @@ router.get('/roles', [RolesController, 'list']).use(
   middleware.auth({
     guards: ['api'],
   })
+)
+
+//Rutas de tipo_documento
+router.get('/tipo_documentos', [TipoDocumentoController, 'list']).use(
+  middleware.auth({ guards: ['api'] })
 )
