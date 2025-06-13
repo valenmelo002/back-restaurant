@@ -36,7 +36,7 @@ router.get('dashboard', [IniciosController, 'index'])
 
 router.post('/login', [AuthController, 'login'])
 
-//rutas de inventario
+router.post('/cambiar-password', [AuthController, 'cambiarPassword'])
 
 router.get('/inventario', [InventoriesController, 'list']).use(
   middleware.auth({
