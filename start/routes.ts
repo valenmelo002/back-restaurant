@@ -19,6 +19,39 @@ const ProductosController = () => import('#controllers/productos_controller')
 const ProveedoresController = () => import('#controllers/proveedores_controller')
 const RecepcionesController = () => import('#controllers/recepcions_controller')
 const HistorialInventarioController = () => import('#controllers/historial_inventarios_controller')
+const MesasController = () => import('#controllers/mesas_controller')
+
+// <-- rutas de gestion de mesas --> //
+router.get('/mesas', [MesasController, 'index']) /*.use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)*/
+
+router.get('/mesas/:id', [MesasController, 'show']) /*.use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)*/
+
+router.post('/mesas', [MesasController, 'store']) /*.use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)*/
+
+router.patch('/mesas/:id', [MesasController, 'update']) /*.use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)*/
+
+router.delete('/mesas/:id', [MesasController, 'destroy']) /*.use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)*/
+//-----------------------------------------------------------------
 
 router.get('/', async () => {
   return {
