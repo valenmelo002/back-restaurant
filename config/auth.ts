@@ -16,7 +16,6 @@ const authConfig = defineConfig({
 })
 
 
-
 const autoConfig = {
   guard: 'api',
   guards: {
@@ -25,7 +24,7 @@ const autoConfig = {
       tokenProvider: {
         type: 'api',
         driver: 'database',
-        table: 'login'
+        table: 'login',
       },
       provider: {
         driver: 'lucid',
