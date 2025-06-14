@@ -10,7 +10,9 @@ export default class UserRoleController {
     const limit = request.input('limit', 10)
     const nombre = request.input('nombre')
 
-    const query = UserRole.query().preload('user').preload('roles')
+    const query = UserRole.query().preload('user', (query) => {
+      query.preload('tipos_documentos')
+    }).preload('roles')
 
     if (nombre) {
       query.whereHas('user', (userQuery) => {
@@ -30,7 +32,9 @@ export default class UserRoleController {
   async get({ params, response }: HttpContext) {
     const userRole = await UserRole.query()
       .where('id', params.id)
-      .preload('user')
+      .preload('user', (query) => {
+        query.preload('tipos_documentos')
+      })
       .preload('roles')
       .firstOrFail()
 
