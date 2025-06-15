@@ -97,10 +97,26 @@ export default class UserRoleController {
 
   // DELETE /user_roles/:id
   async destroy({ params, response }: HttpContext) {
-    const userRole = await UserRole.findOrFail(params.id)
-    await userRole.load('user')
-    await userRole.user.delete()
-    await userRole.delete()
-    return response.noContent()
+    try {
+      const userRole = await UserRole.findOrFail(params.id)
+
+      // Asegúrate de cargar la relación con el usuario
+      await userRole.load('user')
+
+      // Elimina el usuario relacionado primero
+      if (userRole.user) {
+        await userRole.user.delete()
+      }
+
+      // Luego elimina el registro en UserRole
+      await userRole.delete()
+
+      return response.noContent()
+    } catch (error) {
+      console.error('❌ Error al eliminar usuario y relación:', error)
+      return response.internalServerError({
+        message: 'No se pudo eliminar el usuario o su relación con el rol.',
+      })
+    }
   }
 }
