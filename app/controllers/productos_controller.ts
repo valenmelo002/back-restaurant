@@ -2,7 +2,6 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Producto from '#models/producto'
 
 export default class ProductosController {
-  // GET /productos?page=1&limit=10&nombre=arroz
   async list({ request, response }: HttpContext) {
     const page = request.input('page', 1)
     const limit = request.input('limit', 10)
@@ -22,7 +21,6 @@ export default class ProductosController {
     })
   }
 
-  // POST /productos
   async create({ request, response }: HttpContext) {
     const data = request.only([
       'nombre',
@@ -40,7 +38,6 @@ export default class ProductosController {
     return response.created(producto)
   }
 
-  // GET /productos/:id
   async get({ params, response }: HttpContext) {
     const producto = await Producto.findOrFail(params.id)
     await producto.load('categoria')
@@ -49,7 +46,6 @@ export default class ProductosController {
     return response.ok(producto)
   }
 
-  // PUT /productos/:id
   async update({ params, request, response }: HttpContext) {
     const producto = await Producto.findOrFail(params.id)
 
@@ -70,7 +66,6 @@ export default class ProductosController {
     return response.ok(producto)
   }
 
-  // DELETE /productos/:id
   async destroy({ params, response }: HttpContext) {
     const producto = await Producto.findOrFail(params.id)
     await producto.delete()

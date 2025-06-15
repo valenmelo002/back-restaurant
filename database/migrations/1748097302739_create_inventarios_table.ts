@@ -8,10 +8,25 @@ export default class extends BaseSchema {
       table.increments('id').primary()
       table.integer('codigo').notNullable()
       table.string('nombre_producto').notNullable()
-      table.string('categoria').notNullable()
+
+      table
+        .integer('categoria_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('categorias')
+        .onDelete('CASCADE')
+
+      table
+        .integer('unidad_medida_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('unidades_medida')
+        .onDelete('CASCADE')
+
       table.integer('stock').notNullable()
       table.integer('min_stock').notNullable()
-      table.string('unidad_medida').notNullable()
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()
     })
