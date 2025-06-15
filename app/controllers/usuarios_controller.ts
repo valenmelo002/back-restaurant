@@ -98,6 +98,7 @@ export default class UserRoleController {
   // DELETE /user_roles/:id
   async destroy({ params, response }: HttpContext) {
     const userRole = await UserRole.findOrFail(params.id)
+    await userRole.load('user')
     await userRole.user.delete()
     await userRole.delete()
     return response.noContent()
