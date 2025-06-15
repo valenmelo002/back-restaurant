@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import UserRole from '#models/user_roles'
 import User from '#models/user'
-import hash from '@adonisjs/core/services/hash'
+import { createUserRoleValidator, updateUserRoleValidator } from '#validators/user_role'
 
 export default class UserRoleController {
   // GET /user_roles?page=1&limit=10&nombre=juan
@@ -43,32 +43,21 @@ export default class UserRoleController {
 
   // POST /user_roles
   async create({ request, response }: HttpContext) {
-    const body = request.only([
-      'nombre',
-      'apellido',
-      'tipo_documento_id',
-      'numero_documento',
-      'correo',
-      'password',
-      'numero_telefono',
-      'role_id',
-    ])
-
-    const hashedPassword = await hash.make(body.password)
+    const data = await request.validateUsing(createUserRoleValidator)
 
     const user = await User.create({
-      nombre: body.nombre,
-      apellido: body.apellido,
-      tipo_documento_id: body.tipo_documento_id,
-      numero_documento: body.numero_documento,
-      correo: body.correo,
-      password: hashedPassword,
-      numero_telefono: body.numero_telefono,
+      nombre: data.nombre,
+      apellido: data.apellido,
+      tipo_documento_id: data.tipo_documento_id,
+      numero_documento: data.numero_documento,
+      correo: data.correo,
+      password: data.password, // se hashea automáticamente
+      numero_telefono: data.numero_telefono,
     })
 
     const userRole = await UserRole.create({
       user_id: user.id,
-      role_id: body.role_id,
+      role_id: data.role_id,
     })
 
     await userRole.load('user')
@@ -79,18 +68,10 @@ export default class UserRoleController {
 
   // PUT /user_roles/:id
   async update({ params, request, response }: HttpContext) {
+    const data = await request.validateUsing(updateUserRoleValidator)
+
     const userRole = await UserRole.findOrFail(params.id)
     await userRole.load('user')
-
-    const data = request.only([
-      'nombre',
-      'apellido',
-      'tipo_documento_id',
-      'numero_documento',
-      'correo',
-      'numero_telefono',
-      'role_id',
-    ])
 
     userRole.user.merge({
       nombre: data.nombre,
