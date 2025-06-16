@@ -20,7 +20,7 @@ const ProveedoresController = () => import('#controllers/proveedores_controller'
 const RecepcionesController = () => import('#controllers/recepcions_controller')
 const HistorialInventarioController = () => import('#controllers/historial_inventarios_controller')
 import FacturasCompraController from '#controllers/factura_compras_controller'
-
+import FacturaCompraDetallesController from '#controllers/factura_compra_detalles_controller'
 
 router.get('/', async () => {
   return {
@@ -223,6 +223,34 @@ router.get('/historial-inventario/:id', [HistorialInventarioController, 'get']).
 )
 
 router.delete('/historial-inventario/:id', [HistorialInventarioController, 'destroy']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+// Rutas para los detalles de factura de compra
+router.post('/api/v1/facturasCompra/detalles', [FacturaCompraDetallesController, 'store']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+// Puedes agregar más rutas si necesitas listar, actualizar o eliminar detalles:
+router.get('/api/v1/facturasCompra/detalles', [FacturaCompraDetallesController, 'index']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.get('/api/v1/facturasCompra/detalles/:id', [FacturaCompraDetallesController, 'show']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.put('/api/v1/facturasCompra/detalles/:id', [FacturaCompraDetallesController, 'update']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.delete('/api/v1/facturasCompra/detalles/:id', [FacturaCompraDetallesController, 'destroy']).use(
   middleware.auth({
     guards: ['api'],
   })

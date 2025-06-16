@@ -8,7 +8,7 @@ export default class FacturaCompraDetalle extends BaseModel {
   public id!: number
 
   @column()
-  public encabezado_factura_compra!: number
+  public factura_compras_id!: number
 
   @column()
   public proveedor_id!: number
@@ -26,7 +26,7 @@ export default class FacturaCompraDetalle extends BaseModel {
   public subtotal!: number
 
   @belongsTo(() => FacturaCompra, {
-    foreignKey: 'encabezado_factura_compra',
+    foreignKey: 'factura_compras_id',
   })
   public factura!: BelongsTo<typeof FacturaCompra>
 

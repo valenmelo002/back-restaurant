@@ -1,9 +1,9 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import FacturaCompra from '../models/factura_compra.js'
-import FacturaCompraDetalle from '../models/detallefactura_compra.js'
+import FacturaCompraDetalle from '../models/factura_compra_detalles.js'
 
 export default class FacturaCompraController {
-  
+
   public async index({}: HttpContext) {
     return await FacturaCompra.query().preload('detalles')
   }

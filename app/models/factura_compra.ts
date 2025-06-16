@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
-import FacturaCompraDetalle from './detallefactura_compra.js'
+import FacturaCompraDetalle from './factura_compra_detalles.js'
 
 export default class FacturaCompra extends BaseModel {
   public static table = 'factura_compras'
@@ -9,20 +9,20 @@ export default class FacturaCompra extends BaseModel {
   @column({ isPrimary: true })
   public id!: number
 
-  @column({ columnName: 'numeroFactura' })
+  @column({ columnName: 'numero_factura' })
   public numeroFactura!: number
 
   @column({ columnName: 'nit' })
   public nit!: number
 
-  @column({ columnName: 'nombreEmpresa' })
+  @column({ columnName: 'nombre_empresa' })
   public nombreEmpresa!: string
 
-  @column({ columnName: 'direccionEmpresa' })
+  @column({ columnName: 'direccion_empresa' })
   public direccionEmpresa!: string
 
   @hasMany(() => FacturaCompraDetalle, {
-    foreignKey: 'encabezado_factura_compra',
+    foreignKey: 'factura_compras_id',
   })
   public detalles!: HasMany<typeof FacturaCompraDetalle>
 
