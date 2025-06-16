@@ -23,7 +23,7 @@ export default class FacturaCompraController {
       for (const detalle of detalles) {
         await FacturaCompraDetalle.create({
           ...detalle,
-          encabezado_factura_compra: factura.id,
+          factura_compras_id: factura.id,
         })
       }
     }
@@ -57,7 +57,7 @@ export default class FacturaCompraController {
 
   public async destroy({ params, response }: HttpContext) {
     const factura = await FacturaCompra.findOrFail(params.id)
-    await FacturaCompraDetalle.query().where('encabezado_factura_compra', factura.id).delete()
+    await FacturaCompraDetalle.query().where('factura_compras_id', factura.id).delete()
     await factura.delete()
     return response.noContent()
   }
