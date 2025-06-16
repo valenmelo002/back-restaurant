@@ -39,6 +39,10 @@ router.get('dashboard', [IniciosController, 'index'])
 
 router.post('/login', [AuthController, 'login'])
 
+router.post('/solicitar-reset', [AuthController, 'solicitarReset'])
+
+router.post('/confirmar-reset', [AuthController, 'confirmarReset'])
+
 router.post('/cambiar-password', [AuthController, 'cambiarPassword'])
 
 router.get('/inventario', [InventoriesController, 'list']).use(
