@@ -7,7 +7,7 @@ export default class FacturaCompraController {
     return await FacturaCompra.query().preload('detalles')
   }
 
-  // Crear una nueva factura
+  // Crear una nueva factura  
   public async store({ request, response }: HttpContext) {
     const data = request.only([
       'numeroFactura',
