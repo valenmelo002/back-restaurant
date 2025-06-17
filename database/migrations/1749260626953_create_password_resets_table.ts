@@ -9,6 +9,8 @@ export default class PasswordResets extends BaseSchema {
       table.string('correo').notNullable()
       table.string('token').notNullable().unique()
       table.timestamp('created_at').notNullable()
+      table.timestamp('expires_at').notNullable()
+      table.boolean('used').notNullable().defaultTo(false)
     })
   }
 

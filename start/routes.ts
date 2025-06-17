@@ -11,7 +11,7 @@ const IniciosController = () => import('#controllers/inicios_controller')
 import router from '@adonisjs/core/services/router'
 const DashboardController = () => import('#controllers/dashboard_controller')
 import { middleware } from '#start/kernel'
-import RolesController from '#controllers/roles_controller'
+const RolesController = () => import('#controllers/roles_controller')
 const CategoriasController = () => import('#controllers/categorias_controller')
 const UnidadMedidasController = () => import('#controllers/unidad_medidas_controller')
 const AuthController = () => import('#controllers/auth_controller')
@@ -21,7 +21,7 @@ const ProveedoresController = () => import('#controllers/proveedores_controller'
 const RecepcionesController = () => import('#controllers/recepcions_controller')
 const HistorialInventarioController = () => import('#controllers/historial_inventarios_controller')
 const UsuariosController = () => import('#controllers/usuarios_controller')
-import TipoDocumentoController from '#controllers/tipo_documento_controller'
+const TipoDocumentoController = () => import('#controllers/tipo_documento_controller')
 
 router.get('/', async () => {
   return {
@@ -38,6 +38,12 @@ router.get('/inicio', [DashboardController, 'index']).use(
 router.get('dashboard', [IniciosController, 'index'])
 
 router.post('/login', [AuthController, 'login'])
+
+router.post('/solicitar-reset', [AuthController, 'solicitarReset'])
+
+router.post('/confirmar-reset', [AuthController, 'confirmarReset'])
+
+router.get('/verificar-token/:token', [AuthController, 'verificarToken']) // esta es la nueva
 
 router.post('/cambiar-password', [AuthController, 'cambiarPassword'])
 
@@ -239,6 +245,6 @@ router.get('/roles', [RolesController, 'list']).use(
 )
 
 //Rutas de tipo_documento
-router.get('/tipo_documentos', [TipoDocumentoController, 'list']).use(
-  middleware.auth({ guards: ['api'] })
-)
+router
+  .get('/tipo_documentos', [TipoDocumentoController, 'list'])
+  .use(middleware.auth({ guards: ['api'] }))
