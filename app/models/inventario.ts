@@ -1,31 +1,46 @@
+import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import Categoria from './categoria.js'
+import UnidadMedida from './unidad_medida.js'
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
 export default class Inventario extends BaseModel {
+  public static table = 'inventarios'
+
   @column({ isPrimary: true })
-  public id: number
+  declare id: number
 
   @column()
-  public codigo: number
+  declare codigo: number
 
   @column()
-  public nombre_producto: string
+  declare nombre_producto: string
 
   @column()
-  public categoria: string
+  declare categoria_id: number
 
   @column()
-  public stock: number
+  declare unidad_medida_id: number
 
   @column()
-  public min_stock: number
+  declare stock: number
 
   @column()
-  public unidad_medida: string
+  declare min_stock: number
 
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare created_at: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
+  @column.dateTime({ autoCreate: false, autoUpdate: true, serializeAs: 'updated_at' })
+  declare updated_at: DateTime | null
+
+  @belongsTo(() => Categoria, {
+    foreignKey: 'categoria_id',
+  })
+  declare categoria: BelongsTo<typeof Categoria>
+
+  @belongsTo(() => UnidadMedida, {
+    foreignKey: 'unidad_medida_id',
+  })
+  declare unidadMedida: BelongsTo<typeof UnidadMedida>
 }

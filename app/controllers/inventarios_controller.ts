@@ -1,62 +1,75 @@
-import Inventario from '#models/inventario'
 import type { HttpContext } from '@adonisjs/core/http'
+import Inventario from '#models/inventario'
+import { inventarioValidator, partialInventarioValidator } from '#validators/inventario_validator'
 
-export default class InventoriesController {
+export default class InventariosController {
   async list({ request, response }: HttpContext) {
     const page = request.input('page', 1)
     const limit = request.input('limit', 10)
-    const name = request.input('name')
+    const nombreProducto = request.input('nombre')
 
     const query = Inventario.query()
+      .preload('categoria')
+      .preload('unidadMedida')
+      .orderBy('created_at', 'desc')
 
-    if (name) {
-      query.whereILike('nombre_producto', `%${name}%`)
+    if (nombreProducto) {
+      query.whereILike('nombre_producto', `%${nombreProducto}%`)
     }
 
-    const paginator = await query.paginate(page, limit)
+    const paginated = await query.paginate(page, limit)
 
     return response.ok({
-      data: paginator.all(),
-      total: paginator.getMeta().total,
+      data: paginated.all(),
+      total: paginated.getMeta().total,
     })
   }
 
   async create({ request, response }: HttpContext) {
-    const data = request.only([
-      'codigo',
-      'nombre_producto',
-      'categoria',
-      'stock',
-      'min_stock',
-      'unidad_medida',
-    ])
-    const item = await Inventario.create(data)
-    return response.created(item)
+    const data = await request.validateUsing(inventarioValidator)
+
+    const inventario = await Inventario.create(data)
+    await inventario.load('categoria')
+    await inventario.load('unidadMedida')
+
+    return response.created(inventario)
   }
 
   async get({ params, response }: HttpContext) {
-    const item = await Inventario.findOrFail(params.id)
-    return response.ok(item)
+    const inventario = await Inventario.findOrFail(params.id)
+    await inventario.load('categoria')
+    await inventario.load('unidadMedida')
+
+    return response.ok(inventario)
   }
 
   async update({ params, request, response }: HttpContext) {
-    const item = await Inventario.findOrFail(params.id)
-    const data = request.only([
-      'codigo',
-      'nombre_producto',
-      'categoria',
-      'stock',
-      'min_stock',
-      'unidad_medida',
-    ])
-    item.merge(data)
-    await item.save()
-    return response.ok(item)
+    const inventario = await Inventario.findOrFail(params.id)
+    const data = await request.validateUsing(inventarioValidator)
+
+    inventario.merge(data)
+    await inventario.save()
+    await inventario.load('categoria')
+    await inventario.load('unidadMedida')
+
+    return response.ok(inventario)
+  }
+
+  async patch({ params, request, response }: HttpContext) {
+    const inventario = await Inventario.findOrFail(params.id)
+    const data = await request.validateUsing(partialInventarioValidator)
+
+    inventario.merge(data)
+    await inventario.save()
+    await inventario.load('categoria')
+    await inventario.load('unidadMedida')
+
+    return response.ok(inventario)
   }
 
   async destroy({ params, response }: HttpContext) {
-    const item = await Inventario.findOrFail(params.id)
-    await item.delete()
+    const inventario = await Inventario.findOrFail(params.id)
+    await inventario.delete()
     return response.noContent()
   }
 }

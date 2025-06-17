@@ -23,12 +23,11 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare apellido: string
 
-
   @column()
   declare tipo_documento_id: number
 
   @belongsTo(() => TipoDocumento, {
-    foreignKey: 't_id',
+    foreignKey: 'tipo_documento_id',
   })
   declare tipos_documentos: BelongsTo<typeof TipoDocumento>
 
