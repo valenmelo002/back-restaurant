@@ -1,64 +1,60 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import FacturaCompra from '../models/factura_compra.js'
-import FacturaCompraDetalle from '../models/factura_compra_detalles.js'
 
 export default class FacturaCompraController {
-
+  // Listar todas las facturas con sus detalles
   public async index({}: HttpContext) {
     return await FacturaCompra.query().preload('detalles')
   }
 
+  // Crear una nueva factura
   public async store({ request, response }: HttpContext) {
-    const facturaData = request.only([
+    const data = request.only([
       'numeroFactura',
       'nit',
       'nombreEmpresa',
       'direccionEmpresa',
     ])
-    const detalles = request.input('detalles') // Array de detalles
-
-    const factura = await FacturaCompra.create(facturaData)
-
-    if (Array.isArray(detalles)) {
-      for (const detalle of detalles) {
-        await FacturaCompraDetalle.create({
-          ...detalle,
-          factura_compras_id: factura.id,
-        })
-      }
-    }
-
-    await factura.load('detalles')
+    const factura = await FacturaCompra.create(data)
     return response.created(factura)
   }
 
-  public async show({ params }: HttpContext) {
-    return await FacturaCompra.query()
+  // Mostrar una factura por id con sus detalles
+  public async show({ params, response }: HttpContext) {
+    const factura = await FacturaCompra.query()
       .where('id', params.id)
       .preload('detalles')
-      .firstOrFail()
+      .first()
+    if (!factura) {
+      return response.notFound({ message: 'Factura no encontrada' })
+    }
+    return response.ok(factura)
   }
 
+  // Actualizar una factura
   public async update({ params, request, response }: HttpContext) {
-    const factura = await FacturaCompra.findOrFail(params.id)
-    const facturaData = request.only([
+    const factura = await FacturaCompra.find(params.id)
+    if (!factura) {
+      return response.notFound({ message: 'Factura no encontrada' })
+    }
+    const data = request.only([
       'numeroFactura',
       'nit',
       'nombreEmpresa',
       'direccionEmpresa',
     ])
-    factura.merge(facturaData)
+    factura.merge(data)
     await factura.save()
-
-
-    await factura.load('detalles')
     return response.ok(factura)
   }
 
+  // Eliminar una factura
   public async destroy({ params, response }: HttpContext) {
-    const factura = await FacturaCompra.findOrFail(params.id)
-    await FacturaCompraDetalle.query().where('factura_compras_id', factura.id).delete()
+    const factura = await FacturaCompra.find(params.id)
+    if (!factura) {
+      return response.notFound({ message: 'Factura no encontrada' })
+    }
     await factura.delete()
-    return response.noContent()
+    return response.ok({ message: 'Factura eliminada correctamente' })
   }
 }
