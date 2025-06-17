@@ -38,3 +38,6 @@ export const http = defineConfig({
     sameSite: 'lax',
   },
 })
+/**
+ * The configuration settings used by the HTTP server
+ */

@@ -4,6 +4,7 @@ import { DateTime } from 'luxon'
 
 export default class extends BaseSeeder {
   async run() {
+    console.log('Insertando usuarios...')
     await User.createMany([
       {
         nombre: 'Adso',
@@ -55,6 +56,17 @@ export default class extends BaseSeeder {
         numero_telefono: '3009999999',
         created_at: DateTime.now(),
       },
+      {
+        nombre: 'Diana',
+        apellido: 'Amador',
+        tipo_documento_id: 1,
+        numero_documento: '1110552361',
+        correo: 'diamarcelaleal23@gmail.com',
+        password: '1234',
+        numero_telefono: '3007489413',
+        created_at: DateTime.now(),
+      },
     ])
+    console.log('Usuarios insertados')
   }
 }
