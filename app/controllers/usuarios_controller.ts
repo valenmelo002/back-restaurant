@@ -10,14 +10,14 @@ export default class UserRoleController {
     const limit = request.input('limit', 10)
     const nombre = request.input('nombre')
 
-    const query = UserRole.query().preload('user', (query) => {
-      query.preload('tipos_documentos')
-    }).preload('roles')
+    const query = User.query()
+      .preload('tipos_documentos')
+      .preload('userRoles', (query) => {
+        query.preload('roles')
+      })
 
     if (nombre) {
-      query.whereHas('user', (userQuery) => {
-        userQuery.whereILike('nombre', `%${nombre}%`)
-      })
+      query.whereILike('nombre', `%${nombre}%`)
     }
 
     const paginated = await query.paginate(page, limit)
@@ -30,15 +30,15 @@ export default class UserRoleController {
 
   // GET /user_roles/:id
   async get({ params, response }: HttpContext) {
-    const userRole = await UserRole.query()
+    const user = await User.query()
       .where('id', params.id)
-      .preload('user', (query) => {
-        query.preload('tipos_documentos')
+      .preload('tipos_documentos')
+      .preload('userRoles', (query) => {
+        query.preload('roles')
       })
-      .preload('roles')
       .firstOrFail()
 
-    return response.ok(userRole)
+    return response.ok(user)
   }
 
   // POST /user_roles
@@ -51,29 +51,34 @@ export default class UserRoleController {
       tipo_documento_id: data.tipo_documento_id,
       numero_documento: data.numero_documento,
       correo: data.correo,
-      password: data.password, // se hashea automáticamente
+      password: data.password,
       numero_telefono: data.numero_telefono,
     })
 
-    const userRole = await UserRole.create({
-      user_id: user.id,
-      role_id: data.role_id,
-    })
+    await Promise.all(
+      data.role_ids.map((roleId) =>
+        UserRole.create({ user_id: user.id, role_id: roleId })
+      )
+    )
 
-    await userRole.load('user')
-    await userRole.load('roles')
+    const userWithRoles = await User.query()
+      .where('id', user.id)
+      .preload('tipos_documentos')
+      .preload('userRoles', (query) => {
+        query.preload('roles')
+      })
+      .firstOrFail()
 
-    return response.created(userRole)
+    return response.created(userWithRoles)
   }
 
   // PUT /user_roles/:id
   async update({ params, request, response }: HttpContext) {
     const data = await request.validateUsing(updateUserRoleValidator)
 
-    const userRole = await UserRole.findOrFail(params.id)
-    await userRole.load('user')
+    const user = await User.findOrFail(params.id)
 
-    userRole.user.merge({
+    user.merge({
       nombre: data.nombre,
       apellido: data.apellido,
       tipo_documento_id: data.tipo_documento_id,
@@ -81,35 +86,36 @@ export default class UserRoleController {
       correo: data.correo,
       numero_telefono: data.numero_telefono,
     })
+    await user.save()
 
-    await userRole.user.save()
+    // Eliminar roles anteriores
+    await UserRole.query().where('user_id', user.id).delete()
 
-    if (data.role_id) {
-      userRole.role_id = data.role_id
-      await userRole.save()
-    }
+    // Insertar nuevos roles
+    await Promise.all(
+      data.role_ids.map((roleId) =>
+        UserRole.create({ user_id: user.id, role_id: roleId })
+      )
+    )
 
-    await userRole.load('user')
-    await userRole.load('roles')
+    const userWithRoles = await User.query()
+      .where('id', user.id)
+      .preload('tipos_documentos')
+      .preload('userRoles', (query) => {
+        query.preload('roles')
+      })
+      .firstOrFail()
 
-    return response.ok(userRole)
+    return response.ok(userWithRoles)
   }
 
   // DELETE /user_roles/:id
   async destroy({ params, response }: HttpContext) {
     try {
-      const userRole = await UserRole.findOrFail(params.id)
+      const user = await User.findOrFail(params.id)
 
-      // Asegúrate de cargar la relación con el usuario
-      await userRole.load('user')
-
-      // Elimina el usuario relacionado primero
-      if (userRole.user) {
-        await userRole.user.delete()
-      }
-
-      // Luego elimina el registro en UserRole
-      await userRole.delete()
+      await UserRole.query().where('user_id', user.id).delete()
+      await user.delete()
 
       return response.noContent()
     } catch (error) {

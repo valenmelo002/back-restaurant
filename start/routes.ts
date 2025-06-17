@@ -277,7 +277,7 @@ router.put('/api/v1/facturasCompra/detalles/:id', [FacturaCompraDetallesControll
   })
 )
 
-router.put('/user_roles/:id', [UsuariosController, 'update']).use(
+router.patch('/user_roles/:id', [UsuariosController, 'update']).use(
   middleware.auth({
     guards: ['api'],
   })
