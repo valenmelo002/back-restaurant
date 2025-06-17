@@ -7,8 +7,8 @@ export const createUserRoleValidator = vine.compile(
     tipo_documento_id: vine
       .number()
       .positive()
-      .exists(async (database, value) => {
-        const result = await database.from('tipos_documentos').where('id', value).first()
+      .exists(async (db, value) => {
+        const result = await db.from('tipos_documentos').where('id', value).first()
         return !!result
       }),
     numero_documento: vine.string().trim().minLength(6).maxLength(10),
@@ -19,13 +19,14 @@ export const createUserRoleValidator = vine.compile(
       .minLength(8)
       .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/),
     numero_telefono: vine.string().trim().minLength(7).maxLength(10),
-    role_id: vine
-      .number()
-      .positive()
-      .exists(async (database, value) => {
-        const result = await database.from('roles').where('id', value).first()
-        return !!result
-      }),
+    role_ids: vine
+      .array(
+        vine.number().positive().exists(async (db, value) => {
+          const result = await db.from('roles').where('id', value).first()
+          return !!result
+        })
+      )
+      .minLength(1),
   })
 )
 
@@ -36,19 +37,22 @@ export const updateUserRoleValidator = vine.compile(
     tipo_documento_id: vine
       .number()
       .positive()
-      .exists(async (database, value) => {
-        const result = await database.from('tipos_documentos').where('id', value).first()
+      .exists(async (db, value) => {
+        const result = await db.from('tipos_documentos').where('id', value).first()
         return !!result
       }),
     numero_documento: vine.string().trim().minLength(6).maxLength(10),
     correo: vine.string().trim().email(),
     numero_telefono: vine.string().trim().minLength(7).maxLength(20),
-    role_id: vine
-      .number()
-      .positive()
-      .exists(async (database, value) => {
-        const result = await database.from('roles').where('id', value).first()
-        return !!result
-      }),
+    role_ids: vine
+      .array(
+        vine.number()
+          .positive()
+          .exists(async (db, value) => {
+          const result = await db.from('roles').where('id', value).first()
+          return !!result
+        })
+      )
+      .minLength(1),
   })
 )

@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Proveedores from '#models/proveedores'
+import { proveedorValidator, partialProveedorValidator } from '#validators/proveedores_validator'
 
 export default class ProveedoresController {
   // GET /proveedores?page=1&limit=10&nombre=...
@@ -24,7 +25,7 @@ export default class ProveedoresController {
 
   // POST /proveedores
   async create({ request, response }: HttpContext) {
-    const data = request.only(['nombre', 'telefono', 'correo', 'direccion'])
+    const data = await request.validateUsing(proveedorValidator)
 
     const proveedor = await Proveedores.create(data)
 
@@ -40,8 +41,7 @@ export default class ProveedoresController {
   // PATCH /proveedores/:id
   async update({ params, request, response }: HttpContext) {
     const proveedor = await Proveedores.findOrFail(params.id)
-
-    const data = request.only(['nombre', 'telefono', 'correo', 'direccion'])
+    const data = await request.validateUsing(partialProveedorValidator)
 
     proveedor.merge(data)
     await proveedor.save()

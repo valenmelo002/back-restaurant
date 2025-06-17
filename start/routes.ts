@@ -218,7 +218,7 @@ router.get('/user_roles/:id', [UsuariosController, 'get']).use(
   })
 )
 
-router.put('/user_roles/:id', [UsuariosController, 'update']).use(
+router.patch('/user_roles/:id', [UsuariosController, 'update']).use(
   middleware.auth({
     guards: ['api'],
   })
