@@ -3,7 +3,7 @@ import vine from '@vinejs/vine'
 export const productoValidator = vine.compile(
   vine.object({
     nombre: vine.string().trim().minLength(3).maxLength(255),
-    descripcion: vine.string().trim().maxLength(1000).optional(),
+    descripcion: vine.string().trim().maxLength(40).optional(),
     precio: vine.number().positive().withoutDecimals(),
     categoria_id: vine
       .number()
@@ -28,7 +28,7 @@ export const productoValidator = vine.compile(
 export const partialProductoValidator = vine.compile(
   vine.object({
     nombre: vine.string().trim().minLength(3).maxLength(255).optional(),
-    descripcion: vine.string().trim().maxLength(1000).optional(),
+    descripcion: vine.string().trim().maxLength(40).optional(),
     precio: vine.number().positive().withoutDecimals().optional(),
     categoria_id: vine
       .number()

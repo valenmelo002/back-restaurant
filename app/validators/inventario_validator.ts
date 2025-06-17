@@ -3,7 +3,7 @@ import vine from '@vinejs/vine'
 export const inventarioValidator = vine.compile(
   vine.object({
     codigo: vine.number().positive().withoutDecimals(),
-    nombre_producto: vine.string().trim().minLength(3).maxLength(100),
+    nombre_producto: vine.string().trim().minLength(3).maxLength(50),
     categoria_id: vine
       .number()
       .positive()
@@ -28,7 +28,7 @@ export const inventarioValidator = vine.compile(
 export const partialInventarioValidator = vine.compile(
   vine.object({
     codigo: vine.number().positive().withoutDecimals().optional(),
-    nombre_producto: vine.string().trim().minLength(3).maxLength(100).optional(),
+    nombre_producto: vine.string().trim().minLength(3).maxLength(50).optional(),
     categoria_id: vine
       .number()
       .positive()
