@@ -6,7 +6,7 @@ export default class extends BaseSeeder {
     const userRole = await UserRole.createMany([
       {
         user_id: 1,
-        role_id: 1,
+        role_id: 2,
       },
       {
         user_id: 2,
@@ -22,7 +22,7 @@ export default class extends BaseSeeder {
       },
       {
         user_id: 5,
-        role_id: 1,
+        role_id: 2,
       },
       {
         user_id: 5,
@@ -31,6 +31,10 @@ export default class extends BaseSeeder {
       {
         user_id: 1,
         role_id: 2,
+      },
+      {
+        user_id: 6,
+        role_id: 1,
       },
     ])
   }
