@@ -7,11 +7,13 @@
 |
 */
 
-const IniciosController = () => import('#controllers/inicios_controller')
 import router from '@adonisjs/core/services/router'
-const DashboardController = () => import('#controllers/dashboard_controller')
 import { middleware } from '#start/kernel'
+import FacturasCompraController from '#controllers/factura_compras_controller'
+import FacturaCompraDetallesController from '#controllers/factura_compra_detalles_controller'
 const RolesController = () => import('#controllers/roles_controller')
+const IniciosController = () => import('#controllers/inicios_controller')
+const DashboardController = () => import('#controllers/dashboard_controller')
 const CategoriasController = () => import('#controllers/categorias_controller')
 const UnidadMedidasController = () => import('#controllers/unidad_medidas_controller')
 const AuthController = () => import('#controllers/auth_controller')
@@ -150,6 +152,7 @@ router.delete('/proveedores/:id', [ProveedoresController, 'destroy']).use(
 
 // Ruta de recepcion
 
+// ruta de Historial de inventario
 router.get('/recepcion', [RecepcionesController, 'list']).use(
   middleware.auth({
     guards: ['api'],
@@ -160,6 +163,7 @@ router.post('/recepcion', [RecepcionesController, 'create']).use(
     guards: ['api'],
   })
 )
+
 router.get('/recepcion/:id', [RecepcionesController, 'get']).use(
   middleware.auth({
     guards: ['api'],
@@ -181,8 +185,36 @@ router.delete('/recepcion/:id', [RecepcionesController, 'destroy']).use(
   })
 )
 
-// ruta de Historial de inventario
+router.get('/api/v1/facturasCompra', [FacturasCompraController, 'index']).use(
+    middleware.auth({
+    guards: ['api'],
+  })
+)
+router.post('/api/v1/facturasCompra', [FacturasCompraController, 'store']).use(
+    middleware.auth({
+    guards: ['api'],
+  })
+)
 
+
+
+router.get('/api/v1/facturasCompra/:id', [FacturasCompraController, 'show']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+
+router.put('/api/v1/facturasCompra/:id', [FacturasCompraController, 'update']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+router.delete('/api/v1/facturasCompra/:id', [FacturasCompraController, 'destroy']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
 router.get('/historial-inventario', [HistorialInventarioController, 'list']).use(
   middleware.auth({
     guards: ['api'],
@@ -198,15 +230,29 @@ router.get('/historial-inventario/:id', [HistorialInventarioController, 'get']).
     guards: ['api'],
   })
 )
+
 router.delete('/historial-inventario/:id', [HistorialInventarioController, 'destroy']).use(
   middleware.auth({
     guards: ['api'],
   })
 )
 
-//Rutas de usuarios_roles
 
+// Rutas para los detalles de factura de compra
+router.post('/api/v1/facturasCompra/detalles', [FacturaCompraDetallesController, 'store']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+//Rutas de usuarios_roles
 router.get('/user_roles', [UsuariosController, 'list']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+// Puedes agregar más rutas si necesitas listar, actualizar o eliminar detalles:
+router.get('/api/v1/facturasCompra/detalles', [FacturaCompraDetallesController, 'index']).use(
   middleware.auth({
     guards: ['api'],
   })
@@ -218,13 +264,31 @@ router.post('/user_roles', [UsuariosController, 'create']).use(
   })
 )
 
+router.get('/api/v1/facturasCompra/detalles/:id', [FacturaCompraDetallesController, 'show']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
 router.get('/user_roles/:id', [UsuariosController, 'get']).use(
   middleware.auth({
     guards: ['api'],
   })
 )
 
+router.put('/api/v1/facturasCompra/detalles/:id', [FacturaCompraDetallesController, 'update']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
 router.patch('/user_roles/:id', [UsuariosController, 'update']).use(
+  middleware.auth({
+    guards: ['api'],
+  })
+)
+
+router.delete('/api/v1/facturasCompra/detalles/:id', [FacturaCompraDetallesController, 'destroy']).use(
   middleware.auth({
     guards: ['api'],
   })

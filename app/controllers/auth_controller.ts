@@ -13,7 +13,15 @@ export default class AuthController {
     const { correo, password } = request.only(['correo', 'password'])
     const user = await User.verifyCredentials(correo, password)
     const token = await User.accessTokens.create(user)
-    return token
+
+    return {
+      token,
+      user: {
+        id: user.id,
+        nombre: user.nombre,
+        correo: user.correo,
+      },
+    }
   }
 
   // CAMBIO DE CONTRASEÑA (AUTENTICADO)
