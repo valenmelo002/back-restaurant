@@ -56,9 +56,7 @@ export default class UserRoleController {
     })
 
     await Promise.all(
-      data.role_ids.map((roleId) =>
-        UserRole.create({ user_id: user.id, role_id: roleId })
-      )
+      data.role_ids.map((roleId) => UserRole.create({ user_id: user.id, role_id: roleId }))
     )
 
     const userWithRoles = await User.query()
@@ -93,9 +91,7 @@ export default class UserRoleController {
 
     // Insertar nuevos roles
     await Promise.all(
-      data.role_ids.map((roleId) =>
-        UserRole.create({ user_id: user.id, role_id: roleId })
-      )
+      data.role_ids.map((roleId) => UserRole.create({ user_id: user.id, role_id: roleId }))
     )
 
     const userWithRoles = await User.query()
